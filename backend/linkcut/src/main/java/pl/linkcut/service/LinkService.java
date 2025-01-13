@@ -3,6 +3,7 @@ package pl.linkcut.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.linkcut.entity.Link;
+import pl.linkcut.exception.UrlNotFoundException;
 import pl.linkcut.helper.UrlValidator;
 import pl.linkcut.repository.LinkRepository;
 
@@ -65,14 +66,14 @@ public class LinkService {
      *
      * @param shortUrl the shortened URL
      * @return the original URL associated with the shortened link
-     * @throws RuntimeException if the shortened link does not exist in the database
+     * @throws UrlNotFoundException if the shortened link does not exist in the database
      */
     public String getOriginalUrl(String shortUrl) {
         // Find the link entity in the database by its shortened link
         Link link = linkRepository.findByShortenedLink(shortUrl);
 
         if (link == null) {
-            throw new RuntimeException("Shortened link not found."); // Consider using a custom exception
+            throw new UrlNotFoundException("Shortened link not found.");
         }
 
         return link.getOriginalUrl();
