@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
         // Create structured error response
         ErrorResponse response = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),  // HTTP status code
-                "Invalid Url",                  // General error message
+                "Invalid URL",                  // General error message
                 e.getMessage()                  // Detailed error message
         );
 
@@ -54,11 +54,23 @@ public class GlobalExceptionHandler {
         // Create structured error response
         ErrorResponse response = new ErrorResponse(
                 HttpStatus.UNPROCESSABLE_ENTITY.value(),  // HTTP status code
-                "Unsafe Url",                             // General error message
+                "Unsafe URL",                             // General error message
                 e.getMessage()                            // Detailed error message
         );
 
         // Return response with 422 UNPROCESSABLE ENTITY
         return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(UrlNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUrlNotFoundException(UrlNotFoundException e) {
+        // Create structured error response
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "URL Not Found",
+                e.getMessage()
+        );
+        // Return response with 404 NOT FOUND
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 }
