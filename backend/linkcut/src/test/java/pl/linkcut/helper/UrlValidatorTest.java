@@ -2,27 +2,27 @@ package pl.linkcut.helper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import pl.linkcut.exception.InvalidUrlException;
 import pl.linkcut.exception.UnsafeUrlException;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class UrlValidatorTest {
 
+    @Mock
     private GoogleSafeBrowsingService safeBrowsingServiceMock;
+
+    @InjectMocks
     private UrlValidator urlValidator;
 
-    @BeforeEach
-    void setUp() {
-        // Mock the GoogleSafeBrowsingService
-        safeBrowsingServiceMock = Mockito.mock(GoogleSafeBrowsingService.class);
-
-        // Inject the mock into UrlValidator
-        urlValidator = new UrlValidator(safeBrowsingServiceMock);
-    }
 
     @ParameterizedTest
     @ValueSource(strings = {
