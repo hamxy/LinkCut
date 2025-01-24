@@ -31,18 +31,36 @@ public class UrlValidator {
     }
 
     /**
+     * Checks if url starts with <i>http://</i>. If so, change the protocol
+     * for <i>https://</i>. Other protocols are ignored.
+     *
+     * @param url
+     * @return normalized url
+     */
+    private String normalizeUrl(String url) {
+        if (url.startsWith("http://")) {
+            url = "https://" + url.substring(7);
+        }
+        return url;
+    }
+
+    /**
      * Checks if the given string is a valid URL format.
      * <p>
      * This method uses a regex pattern to validate the URL format,
      * ensuring it matches common URL structures with optional schemes, subdomains, and paths.
      * </p>
+     * If protocol is other than <i>https</i>, it will not pass regex validation.
      *
      * @param url the string to validate
      * @return true if the string matches a valid URL format, false otherwise
      */
     private boolean isValidUrl(String url) {
+        url = normalizeUrl(url);
+        System.out.println(url);
+
         // Regex pattern to validate URL format
-        String regex = "^(https?://)?(www\\.)?([\\w-]+\\.)*[\\w-]+\\.\\w{2,3}(/.*)?";
+        String regex = "^(https://)(www\\.)?([\\w-]+\\.)*[\\w-]+\\.\\w{2,3}([/:].*)?";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(url);
         return matcher.matches();
