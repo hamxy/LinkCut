@@ -9,6 +9,8 @@ import pl.linkcut.dto.OriginalUrlResponse;
 import pl.linkcut.dto.ShortUrlRequest;
 import pl.linkcut.dto.ShortUrlResponse;
 import pl.linkcut.service.LinkService;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * REST Controller for managing URL shortening and retrieval operations.
@@ -39,8 +41,11 @@ public class LinkController {
      * @return a "Hello world" message
      */
     @GetMapping("/")
-    public String helloWorld() {
-        return "Hello world";
+    public Map<String, String> helloWorld() {
+        // Creating a map to return
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Hello, World!");
+        return response;
     }
 
     /**
