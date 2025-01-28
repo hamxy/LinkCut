@@ -1,40 +1,39 @@
-// src/pages/Homepage.tsx
+import SearchBar from "../components/SearchBar";
+import styled from "styled-components";
 
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-
-type ApiResponse = {
-  message: string;
-};
+const Main = styled.main`
+  max-width: 768px;
+  margin: auto;
+  text-align: center;
+`;
+const Description = styled.p`
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+`;
+const Label = styled.p`
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin: 3rem auto 0.7rem 1rem;
+  text-align: left;
+`;
+const SearchBarStyled = styled(SearchBar)`
+  margin-top: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+`;
 
 const Homepage = () => {
-  const [data, setData] = useState<ApiResponse | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);  // Track loading state
-  const [error, setError] = useState<string | null>(null); // Track error state
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get<ApiResponse>('http://localhost:8080/api/'); // Make sure the URL is correct
-        setData(response.data);
-        console.log(response.data);
-      } catch (error) {
-        setError('Failed to fetch data');
-      } finally {
-        setLoading(false);  // Stop loading once request is finished
-      }
-    };
-
-    fetchData();
-  }, []);
-
   return (
-    <div>
-      <h1>Homepage</h1>
-      {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
-      {data && <p>{data.message}</p>}
-    </div>
+    <Main>
+      <h1>Simplify Your Links</h1>
+      <Description>
+        Easily shorten and manage your URLs while tracking their performance in
+        real-time. Powered by Google Safe Browsing API, we ensure your links are
+        protected from malware and phishing risks.
+      </Description>
+      <Label>Paste your link:</Label>
+      <SearchBarStyled />
+    </Main>
   );
 };
 
