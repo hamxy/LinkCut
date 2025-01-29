@@ -1,8 +1,8 @@
 package pl.linkcut.service;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import pl.linkcut.repository.LinkRepository;
-
 import java.time.LocalDate;
 
 /**
@@ -28,7 +28,9 @@ public class LinkCleanupService {
     /**
      * Deletes all expired links from the database.
      * A link is considered expired if its expiration date is strictly earlier than the current date.
+     * This method will run every day at 00:00 (midnight).
      */
+    @Scheduled(cron = "0 0 0 * * ?") // Cron expression for running once every day at midnight
     public void deleteExpiredLinks() {
         LocalDate today = LocalDate.now(); // Get the current date
 
