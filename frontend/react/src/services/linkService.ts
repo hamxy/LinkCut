@@ -1,25 +1,12 @@
 import axiosInstance from "../config/axiosConfig";
+import { LinkRequest, LinkResponse } from "../dto/linkDto";
+import { handleApiError } from "../exceptions/apiErrorHandler";
 
-// Request
-interface ApiRequest {
-    originalUrl: string;
-}
-
-// Response
-interface ApiResponse {
-    shortUrl: string;
-};
-
-export const createLink = async (data: ApiRequest) => {
+export const createLink = async (data: LinkRequest): Promise<LinkResponse> => {
     try {
-        const response = await axiosInstance.post<ApiResponse>("/shorten", data, {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
-        return response;
+        const response = await axiosInstance.post<LinkResponse>("/shorten", data);
+        return response.data;
     } catch (error) {
-        console.error("Error fetching data:", error);
-        throw error;
+        return handleApiError(error);
     }
 };
