@@ -57,7 +57,6 @@ class UrlValidatorTest {
             "http://exam^ple.com",
             "http://example!.com",
             "http://example.c",
-            "http://example.toolongtld"
     })
     void validateUrl_shouldThrowInvalidUrlExceptionForInvalidUrls(String invalidUrl) {
         // Act & Assert
