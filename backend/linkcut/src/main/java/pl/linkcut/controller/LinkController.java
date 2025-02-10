@@ -1,9 +1,9 @@
 package pl.linkcut.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 import pl.linkcut.dto.OriginalUrlRequest;
 import pl.linkcut.dto.OriginalUrlResponse;
 import pl.linkcut.dto.ShortUrlRequest;
@@ -20,7 +20,6 @@ import java.util.Map;
  * </p>
  */
 @RestController
-@RequestMapping("/api")
 public class LinkController {
 
     private final LinkService linkService;
@@ -54,8 +53,8 @@ public class LinkController {
      * @param originalUrlRequest the request DTO containing the original URL
      * @return a ResponseEntity containing the shortened URL wrapped in a DTO
      */
-    @PostMapping("/shorten")
-    public ResponseEntity<ShortUrlResponse> shortenUrl(@RequestBody OriginalUrlRequest originalUrlRequest) {
+    @PostMapping("/link")
+    public ResponseEntity<ShortUrlResponse> createLink(@RequestBody OriginalUrlRequest originalUrlRequest) {
         // Shorten the provided URL using the LinkService
         String shortenedUrl = linkService.shortenUrl(originalUrlRequest.getOriginalUrl());
 
@@ -69,18 +68,31 @@ public class LinkController {
     /**
      * Endpoint to retrieve the original URL for a given shortened URL.
      *
-     * @param shortUrlRequest the request DTO containing the shortened URL
+     * @param shortUrl the request String containing the shortened URL
      * @return a ResponseEntity containing the original URL wrapped in a DTO
      */
-    @PostMapping("/original")
-    public ResponseEntity<OriginalUrlResponse> getOriginalUrl(@RequestBody ShortUrlRequest shortUrlRequest) {
+    @GetMapping("/link/{shortUrl}")
+    public ResponseEntity<OriginalUrlResponse> getOriginalUrl(@PathVariable String shortUrl) {
         // Retrieve the original URL using the LinkService
-        String originalUrl = linkService.getOriginalUrl(shortUrlRequest.getShortUrl());
+        String originalUrl = linkService.getOriginalUrl(shortUrl);
 
         // Create a response DTO with the original URL
         OriginalUrlResponse response = new OriginalUrlResponse(originalUrl);
 
         // Return the response with HTTP status 200 (OK)
         return ResponseEntity.ok(response);
+    }
+
+    /**
+     * Endpoint to redirect to the original URL.
+     *
+     * @param shortUrl String containing the shortened URL
+     * @return RedirectView redirecting to the original URL.
+     */
+    @GetMapping("/{shortUrl}")
+    public RedirectView redirectToOriginalUrl(@PathVariable String shortUrl) {
+        // Retrieve the original URL using the LinkService
+        String originalUrl = linkService.getOriginalUrl(shortUrl);
+        return new RedirectView(originalUrl);
     }
 }

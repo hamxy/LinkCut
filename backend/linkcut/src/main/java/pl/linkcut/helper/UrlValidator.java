@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.linkcut.exception.InvalidUrlException;
 import pl.linkcut.exception.UnsafeUrlException;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,16 +31,18 @@ public class UrlValidator {
 
     /**
      * Checks if url starts with <i>http://</i>. If so, change the protocol
-     * for <i>https://</i>. Other protocols are ignored.
+     * for <i>https://</i>. Other protocols are ignored, as they won't pass regex.
      *
      * @param url
      * @return normalized url
      */
     private String normalizeUrl(String url) {
         if (url.startsWith("http://")) {
-            url = "https://" + url.substring(7);
+            return "https://" + url.substring(7);
+        } else if (url.startsWith("https://")) {
+            return url;
         }
-        return url;
+        return "https://" + url;
     }
 
     /**
@@ -60,7 +61,12 @@ public class UrlValidator {
         System.out.println(url);
 
         // Regex pattern to validate URL format
-        String regex = "^(https://)(www\\.)?([\\w-]+\\.)*[\\w-]+\\.\\w{2,3}([/:].*)?";
+        String regex = "^(https?://)?" + // protocol
+                "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+                "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+                "(:\\d+)?(/[-a-z\\d%_.~+]*)*" + // port and path
+                "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+                "(#[-a-z\\d_]*)?$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(url);
         return matcher.matches();
