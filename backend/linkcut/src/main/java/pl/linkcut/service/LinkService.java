@@ -1,11 +1,11 @@
 package pl.linkcut.service;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.linkcut.entity.Link;
 import pl.linkcut.exception.UrlNotFoundException;
 import pl.linkcut.helper.UrlValidator;
 import pl.linkcut.repository.LinkRepository;
-
 import java.time.LocalDate;
 import java.util.Random;
 
@@ -92,8 +92,8 @@ public class LinkService {
         StringBuilder shortened = new StringBuilder();
         Random random = new Random();
 
-        // Generate a random 6-character string
-        for (int i = 0; i < 6; i++) {
+        // Generate a random 4-character string
+        for (int i = 0; i < 4; i++) {
             shortened.append(characters.charAt(random.nextInt(characters.length())));
         }
 
