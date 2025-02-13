@@ -1,6 +1,6 @@
 package pl.linkcut.exception;
 
-public class UrlNotFoundException extends RuntimeException {
+public class LinkNotFoundException extends RuntimeException {
 
     /**
      * Constructs a new runtime exception with the specified detail message.
@@ -10,7 +10,7 @@ public class UrlNotFoundException extends RuntimeException {
      * @param message the detail message. The detail message is saved for
      *                later retrieval by the {@link #getMessage()} method.
      */
-    public UrlNotFoundException(String message) {
+    public LinkNotFoundException(String message) {
         super(message);
     }
 
@@ -28,7 +28,7 @@ public class UrlNotFoundException extends RuntimeException {
      *                unknown.)
      * @since 1.4
      */
-    public UrlNotFoundException(String message, Throwable cause) {
+    public LinkNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
 }
