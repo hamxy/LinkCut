@@ -62,8 +62,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
-    @ExceptionHandler(UrlNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleUrlNotFoundException(UrlNotFoundException e) {
+    @ExceptionHandler(LinkNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUrlNotFoundException(LinkNotFoundException e) {
         // Create structured error response
         ErrorResponse response = new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
