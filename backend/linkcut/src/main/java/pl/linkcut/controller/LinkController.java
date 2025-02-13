@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 import pl.linkcut.dto.OriginalUrlRequest;
 import pl.linkcut.dto.OriginalUrlResponse;
-import pl.linkcut.dto.ShortUrlRequest;
 import pl.linkcut.dto.ShortUrlResponse;
+import pl.linkcut.entity.Link;
 import pl.linkcut.service.LinkService;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,10 +56,10 @@ public class LinkController {
     @PostMapping("/link")
     public ResponseEntity<ShortUrlResponse> createLink(@RequestBody OriginalUrlRequest originalUrlRequest) {
         // Shorten the provided URL using the LinkService
-        String shortenedUrl = linkService.shortenUrl(originalUrlRequest.getOriginalUrl());
+        Link link = linkService.shortenUrl(originalUrlRequest.getOriginalUrl());
 
-        // Create a response DTO with the shortened URL
-        ShortUrlResponse response = new ShortUrlResponse(shortenedUrl);
+        // Create a response DTO
+        ShortUrlResponse response = new ShortUrlResponse(link.getShortenedLink(), link.getExpirationDate());
 
         // Return the response with HTTP status 200 (OK)
         return ResponseEntity.ok(response);

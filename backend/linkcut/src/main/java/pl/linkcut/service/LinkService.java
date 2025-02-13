@@ -42,9 +42,9 @@ public class LinkService {
      * </p>
      *
      * @param originalUrl the full URL to be shortened
-     * @return the shortened link
+     * @return Link object
      */
-    public String shortenUrl(String originalUrl) {
+    public Link shortenUrl(String originalUrl) {
         // Validate the original URL for format and safety
         urlValidator.validateUrl(originalUrl);
 
@@ -57,7 +57,7 @@ public class LinkService {
         // Save the link entity in the database
         linkRepository.save(link);
 
-        return shortenedLink;
+        return link;
     }
 
     /**

@@ -1,5 +1,9 @@
 package pl.linkcut.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.time.LocalDate;
+
 /**
  * DTO class representing the response with the shortened URL.
  * This class is used to return the shortened URL to the client.
@@ -8,6 +12,9 @@ public class ShortUrlResponse {
 
     // The shortened URL to be returned in the response
     private String shortUrl;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
+    private LocalDate expirationDate;
 
     /**
      * Default constructor.
@@ -21,8 +28,9 @@ public class ShortUrlResponse {
      *
      * @param shortUrl The shortened URL to be returned in the response.
      */
-    public ShortUrlResponse(String shortUrl) {
+    public ShortUrlResponse(String shortUrl, LocalDate expirationDate) {
         this.shortUrl = shortUrl;
+        this.expirationDate = expirationDate;
     }
 
     /**
@@ -41,5 +49,23 @@ public class ShortUrlResponse {
      */
     public void setShortUrl(String shortUrl) {
         this.shortUrl = shortUrl;
+    }
+
+    /**
+     * Getter for the expiration date.
+     *
+     * @return The expiration date.
+     */
+    public LocalDate getExpirationDate() {
+        return expirationDate;
+    }
+
+    /**
+     * Setter for the expiration date.
+     *
+     * @param expirationDate The expiration date to set.
+     */
+    public void setExpirationDate(LocalDate expirationDate) {
+        this.expirationDate = expirationDate;
     }
 }
